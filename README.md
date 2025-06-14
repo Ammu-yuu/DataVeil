@@ -1,6 +1,7 @@
 🌐 Project Name: DataVeil
+
 🧠 Project Concept
-SkyTrace is a web-based OSINT + geospatial intelligence dashboard that combines satellite tracking, online identity correlation, and publicly available footprinting to create a platform for security analysts, investigators, or even enthusiasts to explore digital and orbital activity footprints.
+DataVeil is a web-based OSINT + geospatial intelligence dashboard that combines satellite tracking, online identity correlation, and publicly available footprinting to create a platform for security analysts, investigators, or even enthusiasts to explore digital and orbital activity footprints.
 
 🚀 Key Features (Functional Requirements)
 Module	Feature
