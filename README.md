@@ -68,41 +68,49 @@ Controlled execution of external tools
 Environment-based API key management
 
 🧱 Tech Stack
-Frontend
 
-React
+Frontend: React + Tailwind CSS (TypeScript)
 
-TypeScript
+Backend: Node.js (Express) or Next.js API routes (TypeScript)
 
-Tailwind CSS
+Database: PostgreSQL or MongoDB
 
-Leaflet.js (maps)
+OSINT Tools:
 
-Backend
+Sherlock – username enumeration across platforms
+​
 
-Node.js (Express) or Next.js API routes
+HaveIBeenPwned API – breach exposure checking
+​
 
-REST APIs
+Satellite Data: N2YO REST API for satellite positions/overpasses
 
-Python (for controlled OSINT tooling execution)
 
-Database
+Functional Requirements
 
-PostgreSQL (or MongoDB)
+User Authentication & Access Control: Users can register, log in and log out securely. Passwords are hashed; sessions use HTTP‑only cookies. Only authenticated users can access OSINT and satellite modules.
 
-Stores search logs, snapshots, and metadata
+OSINT Lookup Module: User submits a username or email. Backend runs Sherlock (for usernames) or calls HIBP (for emails) and returns normalised results. Results show: platform, status (found/not found), link, basic metadata.
 
-External APIs & Tools
+Satellite Tracker Module: User enters coordinates or chooses a city/region. Backend calls N2YO to list satellites currently visible or passing within a given time window. Frontend displays satellites on a map with basic info (name, ID, altitude, time).
 
-N2YO API – satellite data
+Exposure View & Reports: For a lookup, the app aggregates OSINT + satellite context and computes a simple “exposure score”. User can view a summary card and export a short text/JSON report.
 
-Sherlock – username OSINT (public platforms only)
+Audit Logging & History: Every lookup (who, what, when, type) is stored in the DB. User can view their own history; admins can view system‑wide history.
 
-Hosting (Planned)
+Security & Privacy Controls: Input validation on usernames, emails, coordinates and file uploads. Rate limits on OSINT endpoints; API keys stored in environment variables.
 
-Frontend: Vercel
 
-Backend & DB: Railway / Render
+A “Privacy & Ethics” page explaining intended use and limitations.
+
+Threat Modelling (Short)
+Assets: OSINT results, user accounts, API keys, audit logs.
+
+Actors: legitimate user, malicious user, API abuser, external attacker.
+
+Key Risks: account takeover, abuse of OSINT APIs, XSS, IDOR, data leakage.
+
+Mitigations: strong auth, rate limiting, validation/encoding, access checks, logging.
 
 📐 System Architecture (High-Level)
 Frontend (React)
@@ -135,68 +143,3 @@ Encourage responsible security thinking
 Demonstrate defensive analysis techniques
 
 Important: This tool should only be used for educational, research, or defensive security purposes.
-
-🧪 Testing (Planned / In Progress)
-
-Unit tests for satellite API integrations
-
-Mocked OSINT tool output for backend testing
-
-Input validation tests
-
-UI tests for search workflows
-
-🚀 Getting Started
-Prerequisites
-
-Node.js (v18+)
-
-Python 3.x
-
-PostgreSQL or MongoDB
-
-N2YO API Key
-
-Setup
-git clone https://github.com/your-username/dataveil
-cd dataveil
-
-# Backend
-cd backend
-npm install
-npm run dev
-
-# Frontend
-cd frontend
-npm install
-npm run dev
-
-
-Create a .env file with:
-
-N2YO_API_KEY=your_key_here
-DATABASE_URL=your_db_url
-
-🛣️ Roadmap
-
- Improve audit trail visualisation
-
- Add investigation notes per snapshot
-
- Enhance rate limiting & abuse detection
-
- Exportable exposure summary reports
-
- Alerting for defined conditions (educational use)
-
-📚 What This Project Demonstrates
-
-Full-stack development with security awareness
-
-API integration and data orchestration
-
-Ethical OSINT usage
-
-Logging, auditing, and traceability
-
-Clear documentation and system thinking
