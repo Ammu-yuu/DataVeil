@@ -1,154 +1,202 @@
-🌐 Project Name: DataVeil
+🛰️ DataVeil
 
-🧠 Project Concept
-DataVeil is a web-based OSINT + geospatial intelligence dashboard that combines satellite tracking, online identity correlation, and publicly available footprinting to create a platform for security analysts, investigators, or even enthusiasts to explore digital and orbital activity footprints.
+OSINT & Exposure-Awareness Dashboard
 
-🚀 Key Features (Functional Requirements)
-Module	Feature
-1. Satellite Tracker	Track satellites (position, speed, visibility, etc.) in real-time using N2YO API
-2. OSINT Profile Scan	Use Sherlock (or similar) to find all public usernames and profiles linked to a single handle
-3. Geo-Intel Correlation	Map satellites over a region based on lat/long coordinates to check which satellites are visible in an area
-4. Snapshot Logging	Save user lookups and satellite positions to a local DB or cloud (for audit/logging)
-5. Identity–Location Bridge (Optional)	Let user submit handle + city, then map open profiles and current satellite visibility over region
-6. Web Interface	Clean frontend dashboard for:
+DataVeil is a web-based security analysis dashboard that demonstrates how publicly available information (OSINT) can be correlated and visualised to understand digital exposure, activity context, and potential risk signals.
 
-Searching usernames
+The project is designed as a defensive, educational tool for security analysts, students, and engineers to explore how fragmented public data can be combined — and why monitoring, logging, and ethical handling of data are critical in modern security operations.
 
-Viewing current satellite overlays
+🎯 Project Goals
 
-Saving/flagging interesting results
+Demonstrate defensive OSINT analysis using publicly available data
 
-Timeline of snapshots |
-| 7. Alert Setup (Advanced) | Email or push notifications when a satellite passes over a given location, or a new username appears online |
-| 8. Privacy Tool Additions (Optional) | Highlight the data exposure and potential risks by simulating how info can be connected |
+Visualise contextual relationships (identity, geography, time-based activity)
 
-🛠️ Tech Stack
-Layer	Tech
-Frontend	React + Tailwind CSS
-Backend	Node.js (Express) or Next.js API routes
-Language	JavaScript / TypeScript
-Shell Tasks	Python (for Sherlock) — called from backend
-Database	MongoDB or PostgreSQL
-Hosting	Vercel (for frontend) + Railway or Render (for backend/DB)
-API Keys	N2YO API for satellite data
-Security	Rate limiting, IP logging, simple token auth for private use
+Highlight how data exposure can emerge from benign sources
 
-🧰 Other OSINT Tools You Can Integrate
-Tool	Purpose
-Sherlock	Usernames on 300+ platforms
-Holehe	Checks email address against platforms (are they registered?)
-Social Analyzer	Profile analyzer + media search
-Metagoofil	Extract metadata from publicly available docs
-Exiftool	Read metadata from uploaded images (location, camera type, etc.)
-Shodan API	IoT & server info exposed to public
-HaveIBeenPwned API	Check if email/password was in a data breach
+Practice secure backend design, logging, and API integration
 
-📦 Setup Instructions
-✅ Prerequisites
-Node.js + npm
+Build a full-stack system with security-first thinking
 
-Python 3.x (for Sherlock)
+This project is not intended for surveillance, tracking individuals, or invasive investigation.
 
-MongoDB Atlas or local DB
+🔍 Core Features
+🛰️ Satellite Visibility Tracker
 
-GitHub repo
+Fetches real-time satellite position and visibility data using the N2YO API
 
-🧱 Step-by-Step Project Plan
-📁 1. Project Structure
+Displays satellites over a selected geographic region
 
-skytrace/
-│
-├── frontend/           # React + Tailwind (Vite or Create React App)
-│   └── src/
-├── backend/            # Express or Next.js API routes
-│   └── routes/
-│       └── satellite.js
-│       └── sherlock.js
-├── python/
-│   └── sherlock_runner.py
-├── .env
-└── README.md
+Provides context for understanding satellite coverage and activity
 
+🕵️ OSINT Username Scan
 
-⚙️ 2. Set Up Satellite Tracker
-Sign up on https://www.n2yo.com/api/ and get API key.
+Uses Sherlock to identify publicly available usernames across platforms
 
-Use /rest/v1/satellite/above or /rest/v1/satellite/positions endpoints.
+Returns only information that is already public and openly accessible
 
-Create backend endpoint /api/satellite to call this API and send data to frontend.
+No authenticated, private, or restricted content is accessed
 
-🕵️ 3. Integrate Sherlock (OSINT usernames)
-Fork and clone Sherlock repo.
+🗺️ Geospatial Visualisation
 
-In python/sherlock_runner.py:
+Interactive map view using Leaflet
 
-import subprocess
-import sys
-import json
+Overlays satellite paths and regional visibility
 
-def run_sherlock(username):
-    result = subprocess.run(["python3", "sherlock/sherlock.py", username, "--json"], capture_output=True, text=True)
-    return result.stdout
+Helps correlate location-based context with public activity
 
-if __name__ == "__main__":
-    print(run_sherlock(sys.argv[1]))
+📝 Snapshot Logging & Audit Trail
 
-In Express backend: create route /api/usersearch to spawn this subprocess and return data.
+Stores user-initiated searches and results
 
-🗺️ 4. Frontend Interface
-Use Tailwind UI components to build a dashboard with:
+Creates a basic audit trail to demonstrate:
 
-Username search bar
+Traceability
 
-List of found accounts (cards/grid)
+Accountability
 
-Satellite map (e.g., Leaflet.js with overlays)
+Investigation context
 
-Satellite filter (over specific country or lat/long)
+🔐 Security Controls
 
-💾 5. Database Integration
-Store:
+Rate limiting on backend APIs
 
-User search logs
+Input validation
 
-Satellite positions viewed
+Controlled execution of external tools
 
-Alert rules (optional)
+Environment-based API key management
 
-Saved profiles
+🧱 Tech Stack
+Frontend
 
-🔔 6. Optional Enhancements
-Feature	Description
-Account Exposure Score	Score usernames based on exposure (social, geolocation, leaks)
-Satellite Heatmap	Map real-time paths of major satellites
-User-Sat-Correlation	Overlay user geo data (if found) with satellite visibility for theory analysis
-Export Report (PDF)	Auto-generate PDF reports of search results
+React
 
-🧪 7. Testing
-Unit testing for satellite data fetch
+TypeScript
 
-Mock shell output for Sherlock test cases
+Tailwind CSS
 
-UI tests for form inputs
+Leaflet.js (maps)
 
-📘 8. Documentation
-Create clear README:
+Backend
 
-Purpose
+Node.js (Express) or Next.js API routes
+
+REST APIs
+
+Python (for controlled OSINT tooling execution)
+
+Database
+
+PostgreSQL (or MongoDB)
+
+Stores search logs, snapshots, and metadata
+
+External APIs & Tools
+
+N2YO API – satellite data
+
+Sherlock – username OSINT (public platforms only)
+
+Hosting (Planned)
+
+Frontend: Vercel
+
+Backend & DB: Railway / Render
+
+📐 System Architecture (High-Level)
+Frontend (React)
+   ↓ REST API
+Backend (Node.js / Express)
+   ├── Satellite API Integration (N2YO)
+   ├── OSINT Tool Runner (Python - Sherlock)
+   ├── Rate Limiting & Logging
+   ↓
+Database (PostgreSQL)
+
+🧠 Ethical & Legal Considerations
+
+DataVeil is built with ethics and legality as a core principle:
+
+✅ Only publicly available data is accessed
+
+❌ No scraping of private or authenticated content
+
+❌ No tracking of individuals without user-initiated input
+
+❌ No automated profiling or decision-making
+
+This project exists to:
+
+Educate on data exposure risks
+
+Encourage responsible security thinking
+
+Demonstrate defensive analysis techniques
+
+Important: This tool should only be used for educational, research, or defensive security purposes.
+
+🧪 Testing (Planned / In Progress)
+
+Unit tests for satellite API integrations
+
+Mocked OSINT tool output for backend testing
+
+Input validation tests
+
+UI tests for search workflows
+
+🚀 Getting Started
+Prerequisites
+
+Node.js (v18+)
+
+Python 3.x
+
+PostgreSQL or MongoDB
+
+N2YO API Key
 
 Setup
+git clone https://github.com/your-username/dataveil
+cd dataveil
 
-API usage
+# Backend
+cd backend
+npm install
+npm run dev
 
-Demo screenshots
+# Frontend
+cd frontend
+npm install
+npm run dev
 
-Future roadmap
 
-🌟 9. Stretch Goals
-Add basic AI chatbot for data correlation explanations (OpenAI or Ollama)
+Create a .env file with:
 
-Add map-based alerting system
+N2YO_API_KEY=your_key_here
+DATABASE_URL=your_db_url
 
-Add real-time webhook notifications (via Telegram, Slack, Email)
+🛣️ Roadmap
 
-Package as a desktop app using Tauri
+ Improve audit trail visualisation
+
+ Add investigation notes per snapshot
+
+ Enhance rate limiting & abuse detection
+
+ Exportable exposure summary reports
+
+ Alerting for defined conditions (educational use)
+
+📚 What This Project Demonstrates
+
+Full-stack development with security awareness
+
+API integration and data orchestration
+
+Ethical OSINT usage
+
+Logging, auditing, and traceability
+
+Clear documentation and system thinking
