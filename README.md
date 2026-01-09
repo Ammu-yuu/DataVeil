@@ -1,145 +1,257 @@
-🛰️ DataVeil
+# 🛰️ DataVeil
 
-OSINT & Exposure-Awareness Dashboard
+### OSINT & Exposure-Awareness Dashboard
 
-DataVeil is a web-based security analysis dashboard that demonstrates how publicly available information (OSINT) can be correlated and visualised to understand digital exposure, activity context, and potential risk signals.
+**DataVeil** is a web-based security analysis dashboard that demonstrates how *publicly available information (OSINT)* can be responsibly correlated and visualised to understand **digital exposure, contextual activity, and potential risk signals**.
 
-The project is designed as a defensive, educational tool for security analysts, students, and engineers to explore how fragmented public data can be combined — and why monitoring, logging, and ethical handling of data are critical in modern security operations.
+The project is designed as a **defensive, educational tool** for security analysts, students, and engineers to explore how fragmented public data can be combined — and why **logging, monitoring, and ethical data handling** are critical in modern security operations.
 
-🎯 Project Goals
+> ⚠️ **Important**
+> DataVeil is **not** intended for surveillance, tracking individuals, or invasive investigation.
+> It focuses on awareness, defence, and ethical security analysis.
 
-Demonstrate defensive OSINT analysis using publicly available data
+---
 
-Visualise contextual relationships (identity, geography, time-based activity)
+## 🎯 Project Goals
 
-Highlight how data exposure can emerge from benign sources
+* Demonstrate **defensive OSINT analysis** using only publicly available data
+* Visualise **contextual relationships** between identity, geography, and time-based activity
+* Highlight how **data exposure can emerge from benign sources**
+* Practice **secure backend design**, logging, and API integration
+* Build a **full-stack system with security-first thinking**
 
-Practice secure backend design, logging, and API integration
+---
 
-Build a full-stack system with security-first thinking
+## 🔍 Core Features
 
-This project is not intended for surveillance, tracking individuals, or invasive investigation.
+### 🛰️ Satellite Visibility Tracker
 
-🔍 Core Features
-🛰️ Satellite Visibility Tracker
+* Fetches real-time satellite position and visibility data using the **N2YO API**
+* Displays satellites over a selected geographic region
+* Provides contextual insight into satellite coverage and activity patterns
 
-Fetches real-time satellite position and visibility data using the N2YO API
+---
 
-Displays satellites over a selected geographic region
+### 🕵️ OSINT Username Scan
 
-Provides context for understanding satellite coverage and activity
+* Uses **Sherlock** to identify publicly available usernames across platforms
+* Returns *only* information that is already public and openly accessible
+* No authenticated, private, or restricted content is accessed
 
-🕵️ OSINT Username Scan
+---
 
-Uses Sherlock to identify publicly available usernames across platforms
+### 🗺️ Geospatial Visualisation
 
-Returns only information that is already public and openly accessible
+* Interactive map view powered by **Leaflet**
+* Overlays satellite paths and regional visibility
+* Correlates location-based context with publicly observable activity
 
-No authenticated, private, or restricted content is accessed
+---
 
-🗺️ Geospatial Visualisation
+### 📝 Snapshot Logging & Audit Trail
 
-Interactive map view using Leaflet
+* Stores user-initiated searches and results
+* Creates a basic audit trail demonstrating:
 
-Overlays satellite paths and regional visibility
+  * Traceability
+  * Accountability
+  * Investigation context
 
-Helps correlate location-based context with public activity
+---
 
-📝 Snapshot Logging & Audit Trail
+### 🔐 Security Controls
 
-Stores user-initiated searches and results
+* Backend API rate limiting
+* Input validation and sanitisation
+* Controlled execution of external OSINT tools
+* Environment-based API key management
 
-Creates a basic audit trail to demonstrate:
+---
 
-Traceability
+## 🧱 Tech Stack
 
-Accountability
+**Frontend**
 
-Investigation context
+* React
+* Tailwind CSS
+* TypeScript
 
-🔐 Security Controls
+**Backend**
 
-Rate limiting on backend APIs
+* Node.js (Express) or Next.js API routes
+* TypeScript
 
-Input validation
+**Database**
 
-Controlled execution of external tools
+* PostgreSQL or MongoDB
 
-Environment-based API key management
+**OSINT & External Services**
 
-🧱 Tech Stack
+* **Sherlock** – Username enumeration across platforms
+* **Have I Been Pwned API** – Breach exposure checking
+* **N2YO REST API** – Satellite position and overpass data
 
-Frontend: React + Tailwind CSS (TypeScript)
+---
 
-Backend: Node.js (Express) or Next.js API routes (TypeScript)
+## ⚙️ Functional Requirements
 
-Database: PostgreSQL or MongoDB
+### 🔑 Authentication & Access Control
 
-OSINT Tools:
+* Secure user registration and login
+* Password hashing and HTTP-only session cookies
+* Only authenticated users can access OSINT and satellite modules
 
-Sherlock – username enumeration across platforms
-​
+---
 
-HaveIBeenPwned API – breach exposure checking
-​
+### 🔎 OSINT Lookup Module
 
-Satellite Data: N2YO REST API for satellite positions/overpasses
+* User submits a username or email address
+* Backend:
 
+  * Runs **Sherlock** for usernames
+  * Calls **HIBP API** for email breach checks
+* Results are normalised and include:
 
-Functional Requirements
+  * Platform name
+  * Status (found / not found)
+  * Public link
+  * Basic metadata
 
-User Authentication & Access Control: Users can register, log in and log out securely. Passwords are hashed; sessions use HTTP‑only cookies. Only authenticated users can access OSINT and satellite modules.
+---
 
-OSINT Lookup Module: User submits a username or email. Backend runs Sherlock (for usernames) or calls HIBP (for emails) and returns normalised results. Results show: platform, status (found/not found), link, basic metadata.
+### 🛰️ Satellite Tracker Module
 
-Satellite Tracker Module: User enters coordinates or chooses a city/region. Backend calls N2YO to list satellites currently visible or passing within a given time window. Frontend displays satellites on a map with basic info (name, ID, altitude, time).
+* User selects a city or provides latitude/longitude
+* Backend calls **N2YO** to retrieve:
 
-Exposure View & Reports: For a lookup, the app aggregates OSINT + satellite context and computes a simple “exposure score”. User can view a summary card and export a short text/JSON report.
+  * Visible satellites
+  * Passing satellites within a time window
+* Frontend displays results on an interactive map with:
 
-Audit Logging & History: Every lookup (who, what, when, type) is stored in the DB. User can view their own history; admins can view system‑wide history.
+  * Satellite name
+  * ID
+  * Altitude
+  * Timestamp
 
-Security & Privacy Controls: Input validation on usernames, emails, coordinates and file uploads. Rate limits on OSINT endpoints; API keys stored in environment variables.
+---
 
+### 📊 Exposure View & Reports
 
-A “Privacy & Ethics” page explaining intended use and limitations.
+* Aggregates OSINT results with geospatial context
+* Computes a simple **exposure score**
+* Displays a summary card per lookup
+* Allows export of results as text or JSON reports
 
-Threat Modelling (Short)
-Assets: OSINT results, user accounts, API keys, audit logs.
+---
 
-Actors: legitimate user, malicious user, API abuser, external attacker.
+### 🧾 Audit Logging & History
 
-Key Risks: account takeover, abuse of OSINT APIs, XSS, IDOR, data leakage.
+* Stores every lookup:
 
-Mitigations: strong auth, rate limiting, validation/encoding, access checks, logging.
+  * Who performed it
+  * What was searched
+  * When it occurred
+  * Lookup type
+* Users can view their own history
+* Admins can view system-wide activity
 
-📐 System Architecture (High-Level)
+---
+
+### 🔐 Security & Privacy Controls
+
+* Input validation for usernames, emails, coordinates
+* Rate limiting on OSINT-related endpoints
+* API keys stored securely in environment variables
+* Dedicated **Privacy & Ethics** page outlining:
+
+  * Intended use
+  * Limitations
+  * Legal considerations
+
+---
+
+## 🛡️ Threat Modelling (Summary)
+
+**Assets**
+
+* OSINT results
+* User accounts
+* API keys
+* Audit logs
+
+**Threat Actors**
+
+* Legitimate users
+* Malicious users
+* API abusers
+* External attackers
+
+**Key Risks**
+
+* Account takeover
+* OSINT API abuse
+* XSS / injection attacks
+* IDOR
+* Data leakage
+
+**Mitigations**
+
+* Strong authentication
+* Rate limiting
+* Input validation and output encoding
+* Access control checks
+* Comprehensive logging and monitoring
+
+---
+
+## 📐 System Architecture (High-Level)
+
+```
 Frontend (React)
-   ↓ REST API
-Backend (Node.js / Express)
-   ├── Satellite API Integration (N2YO)
-   ├── OSINT Tool Runner (Python - Sherlock)
-   ├── Rate Limiting & Logging
-   ↓
-Database (PostgreSQL)
+        ↓
+REST API Backend (Node.js / Express)
+        ├── Satellite API Integration (N2YO)
+        ├── OSINT Tool Runner (Python – Sherlock)
+        ├── Rate Limiting & Logging
+        ↓
+Database (PostgreSQL / MongoDB)
+```
 
-🧠 Ethical & Legal Considerations
+---
 
-DataVeil is built with ethics and legality as a core principle:
+## 🧠 Ethical & Legal Considerations
+
+DataVeil is built with **ethics and legality as a core principle**:
 
 ✅ Only publicly available data is accessed
-
 ❌ No scraping of private or authenticated content
-
 ❌ No tracking of individuals without user-initiated input
-
 ❌ No automated profiling or decision-making
 
 This project exists to:
 
-Educate on data exposure risks
+* Educate users on **data exposure risks**
+* Encourage **responsible security thinking**
+* Demonstrate **defensive analysis techniques**
 
-Encourage responsible security thinking
+> **Important:**
+> This tool should only be used for **educational, research, or defensive security purposes**.
 
-Demonstrate defensive analysis techniques
+---
 
-Important: This tool should only be used for educational, research, or defensive security purposes.
+## 📘 Status & Roadmap
+
+**Current Status**
+
+* Core architecture and feature design
+* Frontend dashboard in progress
+* Backend API integration planned
+
+**Planned Enhancements**
+
+* Alerting & notifications
+* Improved exposure scoring models
+* Report generation (PDF)
+* Role-based access control
+* Additional OSINT integrations
+
